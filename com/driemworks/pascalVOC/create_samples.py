@@ -1,5 +1,6 @@
 from __future__ import print_function
 
+import os
 import numpy as np
 import cv2
 import random
@@ -113,8 +114,6 @@ def onMouseOutputImage(event, x, y, flags, param):
 refPt = []
 
 img_idx = 0
-num_images = 16 # todo remove this
-num_bg = 50 # todo remove this
 masks = []
 labels = []
 rect_list = []
@@ -143,10 +142,9 @@ def get_save_path():
 
 if __name__ == '__main__':
 
-	while img_idx < num_images:
+	for filename in os.listdir(img_dir):
+	# while img_idx < num_images:
 		staged_rects = []
-
-		filename = get_save_path()
 		print("filename: " + filename)
 
 		img = cv2.imread(filename)
@@ -193,8 +191,8 @@ if __name__ == '__main__':
 					masks.append(mask2)
 					images.append(img2)
 					rect_list = []
-					print("saving label " + str(len(labels)) + " of " + str(num_images))
-					print("saving mask " + str(len(masks)) + " of " + str(num_images))
+					# print("saving label " + str(len(labels)) + " of " + str(num_images))
+					# print("saving mask " + str(len(masks)) + " of " + str(num_images))
 
 				img_idx += 1
 				print("Result saved as image \n")
@@ -221,14 +219,14 @@ if __name__ == '__main__':
 					bnd_box_list.append(bndBox)
 			elif k == ord('n'):  # segment the image
 				if rect_or_mask == 0:         # grabcut with rect
-					bgdmodel = np.zeros((1,65),np.float64)
-					fgdmodel = np.zeros((1,65),np.float64)
-					cv2.grabCut(img2,mask,rect,bgdmodel,fgdmodel,1,cv2.GC_INIT_WITH_RECT)
+					bgdmodel = np.zeros((1, 65), np.float64)
+					fgdmodel = np.zeros((1, 65), np.float64)
+					cv2.grabCut(img2, mask, rect, bgdmodel, fgdmodel, 1, cv2.GC_INIT_WITH_RECT)
 					rect_or_mask = 1
 				elif rect_or_mask == 1:         # grabcut with mask
-					bgdmodel = np.zeros((1,65),np.float64)
-					fgdmodel = np.zeros((1,65),np.float64)
-					cv2.grabCut(img2,mask,rect,bgdmodel,fgdmodel,1,cv2.GC_INIT_WITH_MASK)
+					bgdmodel = np.zeros((1, 65), np.float64)
+					fgdmodel = np.zeros((1, 65), np.float64)
+					cv2.grabCut(img2, mask, rect, bgdmodel, fgdmodel, 1, cv2.GC_INIT_WITH_MASK)
 
 			mask2 = np.where((mask == 1) + (mask == 3), 255, 0).astype('uint8')
 			output = cv2.bitwise_and(img2, img2, mask=mask2)
@@ -259,6 +257,11 @@ if __name__ == '__main__':
 	max_gamma = 3.25
 
 	do_test = True
+
+	# number of files in the images directory
+	num_images = len([name for name in os.listdir(img_dir) if os.path.isfile(name)])
+	# number of files in the background images directory
+	num_bg = len([name for name in os.listdir(bg_dir) if os.path.isfile(name)])
 
 	while idx < num_images:
 		print("image index: " + str(idx))
