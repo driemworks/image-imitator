@@ -6,6 +6,17 @@ class BoundingBox:
 		self.x_max = x_max
 		self.y_max = y_max
 
+	def get(self, axis, extrema):
+		if str(axis) == 'x':
+			if str(extrema) == 'min':
+				return self.x_min
+			else:
+				return self.x_max
+		elif str(axis) == 'y':
+			if str(extrema) == 'min':
+				return self.y_min
+			else:
+				return self.y_max
 
 	# get the bounding box in the pascal voc format
 	def toPascalVOCFormat(self):
@@ -18,5 +29,5 @@ class BoundingBox:
 		return output
 
 
-bndBox = BoundingBox(x_min=0, y_min=0, x_max=0, y_max=0)
-print(bndBox.toPascalVOCFormat())
+# bndBox = BoundingBox(x_min=0, y_min=0, x_max=0, y_max=0)
+# print(bndBox.toPascalVOCFormat())

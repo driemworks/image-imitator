@@ -22,7 +22,7 @@ class Annotated_Object:
 		output += "\n</object>"
 		return output
 
-boxes = [BoundingBox(0,0,0,0)]
-anno_obj = Annotated_Object("name", "pose", "truncated", "difficult", boxes)
-print("=========================")
-print(anno_obj.toPascalVOCFormat())
+# boxes = [BoundingBox(0,0,0,0)]
+# anno_obj = Annotated_Object("name", "pose", "truncated", "difficult", boxes)
+# print("=========================")
+# print(anno_obj.toPascalVOCFormat())

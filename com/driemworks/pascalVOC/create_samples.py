@@ -56,8 +56,8 @@ def select_label(event):
 def onMouseInputImage(event, x, y, flags, param):
 	global img,img2,drawing,value,mask,rectangle,rect,rect_or_mask,ix,iy,rect_over, X, Y
 
-	if selected_label is None:
-		selected_label(event)
+	# if selected_label is None:
+	# 	selected_label(event)
 
 	# Draw Rectangle
 	if event == cv2.EVENT_RBUTTONDOWN:
@@ -143,11 +143,10 @@ def get_save_path():
 if __name__ == '__main__':
 
 	for filename in os.listdir(img_dir):
-	# while img_idx < num_images:
 		staged_rects = []
-		print("filename: " + filename)
 
-		img = cv2.imread(filename)
+		# read image using the absolute path of the file
+		img = cv2.imread(img_dir + filename)
 		img = cv2.resize(img, (width, height), cv2.INTER_LINEAR)
 
 		img2 = img.copy()                               # a copy of original image
@@ -267,16 +266,21 @@ if __name__ == '__main__':
 		print("image index: " + str(idx))
 
 		anno = anno_list[idx]
+		boxes = bnd_box_list[idx]
 		i = images[idx]
 		m = masks[idx]
 		bg_idx = 0
-		while bg_idx < num_bg:
+		for bg_filename in os.listdir(bg_dir):
+		# while bg_idx < num_bg:
 			print("background index: " + str(bg_idx))
 			iters = 0
-			bg_filename = bg_dir + str(bg_idx) + ".jpg"
+			# bg_filename = bg_dir + str(bg_idx) + ".jpg"
+			# read and resize the background image
 			bg_img = cv2.imread(bg_filename)
 			bg_img = cv2.resize(bg_img, (width, height), interpolation=cv2.INTER_LINEAR)
+			# determine a random gamma adjustment
 			rand_bg_gamma = random.uniform(min_gamma, max_gamma)
+			# adjust the gamma of the background image
 			bg_img = adjust_gamma(bg_img, rand_bg_gamma)
 			while iters < max_iters_per_fg_and_bg:
 				print("iteration " + str(iters))
@@ -307,15 +311,19 @@ if __name__ == '__main__':
 				X = int(random.uniform(0, w_bg - w_s - 1))
 				Y = int(random.uniform(0, h_bg - h_s - 1))
 
-				processed_anno = []
-				for annotation in anno:
-					1+1
+				processed_bnd_boxes = []
+				for b in boxes:
+					processed_bnd_boxes.append(BoundingBox(
+						int(X + rand_scale_x * b.get('x','min')),
+						int(Y + rand_scale_y * b.get('y', 'min')),
+						int(X + rand_scale_x * b.get('x', 'max')),
+						int(Y + rand_scale_y * b.get('y', 'max'))
+					))
 
-
-				# processed_rects = []
-				# for r in l.rects:
-				# 	processed_rects.append([[int(X + rand_scale_x * r[0][0]), int(Y + rand_scale_y * r[0][1])],
-				# 							[int(X + rand_scale_x * r[1][0]), int(Y + rand_scale_y * r[1][1])]])
+				 # processed_rects = []
+				 # for r in l.rects:
+				 # 	processed_rects.append([[int(X + rand_scale_x * r[0][0]), int(Y + rand_scale_y * r[0][1])],
+				 # 							[int(X + rand_scale_x * r[1][0]), int(Y + rand_scale_y * r[1][1])]])
 
 				inverse_mask = cv2.bitwise_not(scaled_mask)
 				roi = bg_img[Y:Y+h_s, X:X+w_s]
@@ -376,4 +384,5 @@ if __name__ == '__main__':
 
 		print("incrementing image index " + str(idx))
 		idx += 1
+
 	cv2.destroyAllWindows()

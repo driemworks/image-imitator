@@ -27,15 +27,15 @@ class Annotation:
 		output += "\n</annotation>"
 		return output
 
-folder = "folder"
-filename = "filename"
-source = "Source"
-size = Size(str(400), str(400), "Unspecified")
-segmented = "Unspecified"
-boxes = [BoundingBox(0,0,1,1)]
-anno_objs = [Annotated_Object("name", "pose", "truncated", "difficult", boxes)]
-
-print("===================================")
-anno = Annotation(folder,filename, source, size, segmented, anno_objs)
-print(anno.toPascalVOCFormat())
+# folder = "folder"
+# filename = "filename"
+# source = "Source"
+# size = Size(str(400), str(400), "Unspecified")
+# segmented = "Unspecified"
+# boxes = [BoundingBox(0,0,1,1)]
+# anno_objs = [Annotated_Object("name", "pose", "truncated", "difficult", boxes)]
+#
+# print("===================================")
+# anno = Annotation(folder,filename, source, size, segmented, anno_objs)
+# print(anno.toPascalVOCFormat())
 
