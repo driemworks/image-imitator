@@ -1,4 +1,4 @@
-from com.driemworks.pascalVOC.config import config
+from config import Directories as config
 
 
 class Size:

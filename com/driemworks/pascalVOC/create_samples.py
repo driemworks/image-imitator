@@ -1,27 +1,21 @@
 from __future__ import print_function
 
 import os
-import numpy as np
-import cv2
 import random
 from random import shuffle
-from com.driemworks.image_processing.image_processor import adjust_gamma
-import time
 
+import cv2
+import numpy as np
+
+import config
+from com.driemworks.image_processing.image_processor import adjust_gamma
+from com.driemworks.pascalVOC.pyObjects.BndBox import BoundingBox
+from com.driemworks.pascalVOC.pyObjects.annotated_object import Annotated_Object
 from com.driemworks.pascalVOC.pyObjects.annotation import Annotation
 from com.driemworks.pascalVOC.pyObjects.annotation_size import Size
-from com.driemworks.pascalVOC.pyObjects.BndBox import BoundingBox
-from com.driemworks.pascalVOC.config import config
-from com.driemworks.pascalVOC.config.config import Labels
-from com.driemworks.pascalVOC.pyObjects.annotated_object import Annotated_Object
 
 folder = "/samples/"
 #
-segmented = config.segmented
-
-width = config.image_width
-height = config.image_height
-depth = config.image_depth
 
 BLUE = [255, 0, 0]  # rectangle color
 RED = [0, 0, 255]  # PR BG
@@ -34,10 +28,18 @@ DRAW_FG = {'color': WHITE, 'val': 1}
 DRAW_PR_FG = {'color': GREEN, 'val': 3}
 DRAW_PR_BG = {'color': RED, 'val': 2}
 
-bg_dir = config.background_image_directory
-img_dir = config.input_image_directory
-save_dir = config.save_image_dir
-anno_dir = config.save_anno_dir
+configDirs = config.Directories()
+
+segmented = configDirs.segmented
+
+width = configDirs.image_width
+height = configDirs.image_height
+depth = configDirs.image_depth
+
+bg_dir = configDirs.background_image_directory
+img_dir = configDirs.input_image_directory
+save_dir = configDirs.save_image_dir
+anno_dir = configDirs.save_anno_dir
 
 # setting up flags
 rect = (0, 0, 1, 1)
@@ -135,6 +137,7 @@ if __name__ == '__main__':
 		staged_rects = []
 
 		# read image using the absolute path of the file
+		print(img_dir + filename)
 		img = cv2.imread(img_dir + filename)
 		img = cv2.resize(img, (width, height), cv2.INTER_LINEAR)
 
@@ -234,7 +237,7 @@ if __name__ == '__main__':
 
 	global_counter = 0
 	idx = 0
-	max_iters_per_fg_and_bg = config.num_iters_per_fg_and_bg
+	max_iters_per_fg_and_bg = configDirs.num_iters_per_fg_and_bg
 	# choose a random gamma value between these two values
 	min_gamma = .05
 	max_gamma = 3.25
