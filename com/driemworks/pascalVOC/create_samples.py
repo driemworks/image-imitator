@@ -124,13 +124,6 @@ def get_bg_path(idx):
 	return bg_dir + str(idx) + ".jpg"
 
 
-# def adjust_gamma(img, gamma=1.0):
-# 	invGamma = 1.0 / gamma
-# 	table = np.array([((i / 255.0) ** invGamma) * 255
-# 					  for i in np.arange(0, 256)]).astype("uint8")
-# 	return cv2.LUT(img, table)
-
-
 def get_save_path():
 	global img_idx
 	return img_dir + str(img_idx) + ".jpg"
