@@ -108,7 +108,7 @@ def onMouseOutputImage(event, x, y, flags, param):
 		cv2.rectangle(output, refPt[0], refPt[1], (0, 255, 0), 2)
 
 
-refPt = []
+refPt = None
 
 img_idx = 0
 masks = []
