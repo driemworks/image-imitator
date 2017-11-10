@@ -20,10 +20,11 @@ class Annotation:
 		output += "\n\t<filename>" + self.filename + "</filename>"
 		output += "\n\t<source>"
 		output += "\n\t\t<database>" + self.source + "</database>"
-		output += "\n\t<\source>"
+		output += "\n\t</source>"
 		output = appendPascalVOC(output, self.size.toPascalVOCFormat())
-		for object in self.objects:
-			output = appendPascalVOC(output, object.toPascalVOCFormat())
+		if self.objects is not None:
+			for object in self.objects:
+				output = appendPascalVOC(output, object.toPascalVOCFormat())
 		output += "\n</annotation>"
 		return output
 

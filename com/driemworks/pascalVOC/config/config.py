@@ -1,5 +1,5 @@
 # image directories
-input_image_directory = "D:/work/training-data/images/"
+input_image_directory = "D:/work/training-data/images/foreground/"
 background_image_directory = "D:/work/training-data/images/background/"
 
 # save dirs
@@ -11,9 +11,13 @@ num_generated_images = 12000
 
 # size of images
 # input and output images will be resized to be these sizes
-image_width = 400
-image_height = 400
-image_depth = "Unspecified"
+image_width = 640
+image_height = 480
+image_depth = 3
+
+segmented = 0
+
+num_iters_per_fg_and_bg = 1
 
 # labels for extracted objects
 class Labels:

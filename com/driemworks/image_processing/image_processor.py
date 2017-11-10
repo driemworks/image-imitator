@@ -16,7 +16,7 @@ def flip_vertical(img):
 
 # adjust the gamme of the input image
 def adjust_gamma(img, gamma=1.0):
-	invGamma = 1.0/gamma
-	table = np.array([((i / 255.0) ** invGamma) * 255
+	inv_gamma = 1.0/gamma
+	table = np.array([((i / 255.0) ** inv_gamma) * 255
 					  for i in np.arange(0, 256)]).astype("uint8")
 	return cv2.LUT(img, table)
