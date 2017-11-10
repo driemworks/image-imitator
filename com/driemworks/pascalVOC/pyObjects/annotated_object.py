@@ -16,7 +16,7 @@ class Annotated_Object:
 		output += "\n\t<name>" + str(self.name) + "</name>"
 		output += "\n\t<pose>" + str(self.pose) + "</pose>"
 		output += "\n\t<truncated>" + str(self.truncated) + "</truncated>"
-		output += appendPascalVOC(output, self.bndBox.toPascalVOCFormat())
+		output = appendPascalVOC(output, self.bndBox.toPascalVOCFormat())
 		output += "\n</object>"
 		return output
 
